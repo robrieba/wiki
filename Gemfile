@@ -15,6 +15,7 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_girl_rails', '~> 4.0'
 end
+
 gem 'faker'
 gem 'figaro', '1.0'
 gem 'devise'
