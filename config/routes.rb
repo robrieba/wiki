@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :wiki_entries
+
   devise_for :users, controllers: {registrations: 'devise/registrations' }
 
   root to: 'welcome#index'

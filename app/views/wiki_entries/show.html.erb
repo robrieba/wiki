@@ -1,0 +1,4 @@
+<h1><%= @wiki_entry.title %></h1>
+<p><%= @wiki_entry.body %></p>
+<%= link_to "Edit", edit_wiki_entry_path(@wiki_entry), class: 'btn btn-success' %>
+<%= link_to "Delete", @wiki_entry, method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure you want to delete this wiki?' } %>

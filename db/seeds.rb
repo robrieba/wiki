@@ -5,3 +5,18 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+
+user = User.create!(
+  email:    'bob@example.com',
+  password: 'password'
+)
+
+15.times do
+  WikiEntry.create!(
+    title: 'This is a Wiki Title',
+    body: 'This is the body. This is the body. This is the body. This is the body.',
+    private: false,
+    user_id: user.id
+  )
+end
