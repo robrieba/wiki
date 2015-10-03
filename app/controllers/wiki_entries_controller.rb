@@ -1,6 +1,8 @@
 class WikiEntriesController < ApplicationController
+  before_action :require_sign_in
+
   def index
-    @wiki_entries = WikiEntry.all
+    @wiki_entries = WikiEntry.where(user_id: current_user.id)
   end
 
   def show
@@ -12,11 +14,12 @@ class WikiEntriesController < ApplicationController
   end
 
   def create
-    @wiki_entry = WikiEntry.new(wiki_entry_params)
+    wiki_entry = WikiEntry.new(wiki_entry_params)
+    wiki_entry.user_id = current_user.id
 
-    if @wiki_entry.save
+    if wiki_entry.save
       flash[:notice] = "Wiki entry was saved."
-      redirect_to @wiki_entry
+      redirect_to wiki_entries_path
     else
       flash[:error] = "There was an error saving the wiki entry. Please try again."
       render :new
@@ -29,11 +32,11 @@ class WikiEntriesController < ApplicationController
   end
 
   def update
-    @wiki_entry = WikiEntry.find(params[:id])
+    wiki_entry = WikiEntry.find(params[:id])
 
-    if @wiki_entry.update_attributes(wiki_entry_params)
+    if wiki_entry.update_attributes(wiki_entry_params)
       flash[:notice] = "Wiki was updated."
-      redirect_to @wiki_entry
+      redirect_to wiki_entries_path
     else
       flash[:error] = "There was an error saving the wiki. Please try again."
       render :edit
@@ -41,10 +44,10 @@ class WikiEntriesController < ApplicationController
   end
 
   def destroy
-    @wiki_entry = WikiEntry.find(params[:id])
+    wiki_entry = WikiEntry.find(params[:id])
 
-    if @wiki_entry.destroy
-      flash[:notice] = "\"#{@wiki_entry.title}\" was deleted successfully."
+    if wiki_entry.destroy
+      flash[:notice] = "\"#{wiki_entry.title}\" was deleted successfully."
       redirect_to action: :index
     else
       flash[:error] = "There was an error deleting the wiki."

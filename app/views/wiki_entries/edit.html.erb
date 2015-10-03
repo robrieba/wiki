@@ -1,7 +1,7 @@
 <h1>Edit Wiki</h1>
 
 <div class="row">
-  <div class="col-md-8">
+  <div class="col-lg-6">
     <%= form_for @wiki_entry do |f| %>
 
       <div class="form-group">
@@ -15,8 +15,16 @@
       </div>
 
       <div class="form-group">
+         <%= link_to "Cancel", wiki_entries_path, class: 'btn btn-default' %>
         <%= f.submit "Save", class: 'btn btn-success' %>
       </div>
     <% end %>
   </div>
+  <div class="col-lg-6">
+    <label>Preview</label>
+    <div class = "well">
+      <h1><%= @wiki_entry.title %></h1>
+      <p><%= @wiki_entry.body %></p>
+    </div>
+ </div>
 </div>
