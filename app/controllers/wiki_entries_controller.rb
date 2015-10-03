@@ -14,10 +14,10 @@ class WikiEntriesController < ApplicationController
   end
 
   def create
-    wiki_entry = WikiEntry.new(wiki_entry_params)
-    wiki_entry.user_id = current_user.id
+    @wiki_entry = WikiEntry.new(wiki_entry_params)
+    @wiki_entry.user_id = current_user.id
 
-    if wiki_entry.save
+    if @wiki_entry.save
       flash[:notice] = "Wiki entry was saved."
       redirect_to wiki_entries_path
     else
@@ -32,9 +32,9 @@ class WikiEntriesController < ApplicationController
   end
 
   def update
-    wiki_entry = WikiEntry.find(params[:id])
+    @wiki_entry = WikiEntry.find(params[:id])
 
-    if wiki_entry.update_attributes(wiki_entry_params)
+    if @wiki_entry.update_attributes(wiki_entry_params)
       flash[:notice] = "Wiki was updated."
       redirect_to wiki_entries_path
     else
@@ -44,15 +44,18 @@ class WikiEntriesController < ApplicationController
   end
 
   def destroy
-    wiki_entry = WikiEntry.find(params[:id])
+    @wiki_entry = WikiEntry.find(params[:id])
 
-    if wiki_entry.destroy
-      flash[:notice] = "\"#{wiki_entry.title}\" was deleted successfully."
-      redirect_to action: :index
-    else
+    if !@wiki_entry.destroy
       flash[:error] = "There was an error deleting the wiki."
       render :show
     end
+
+    respond_to do |format|
+      format.html
+      format.js
+    end
+
   end
 
   private
