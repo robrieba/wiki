@@ -16,6 +16,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.0'
 end
 
+gem 'pundit'
 gem 'faker'
 gem 'figaro', '1.0'
 gem 'devise'

@@ -1,6 +1,5 @@
 <% if @wiki_entry.destroyed? %>
-  document.getElementById('wiki-entry-' + <%= @wiki_entry.id %>).className = "danger";
-  $('#wiki-entry-' + <%= @wiki_entry.id %>).fadeOut(500);
+  $('#wiki-entry-' + <%= @wiki_entry.id %>).addClass('danger').fadeOut(500);
 <% else %>
   $('#wiki-entry-' + <%= @wiki_entry.id %>).prepend("<div class='alert alert-danger'><%= flash[:error] %></div>");
 <% end %>

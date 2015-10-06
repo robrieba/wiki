@@ -1,13 +1,13 @@
 <div class="jumbotron text-center">
   <h1>Simple Wiki</h1>
   <p class="lead">Create and share Markdown wikis</p>
-  <p><a class="btn btn-lg btn-success" href="#" role="button">Sign Up</a></p>
+  <p><%= link_to "Sign Up", new_user_registration_path, class: "btn btn-lg btn-success", role: "button" %></p>
 </div>
 
 <div class="row">
   <div class="col-sm-6 text-center">
     <h3>Create public wikis.</h3>
-    <p><a class="btn btn-primary" href="#" role="button">Free Plan</a></p>
+    <p><%= link_to "Free Plan", new_user_registration_path, class: "btn btn-primary", role: "button" %></p>
   </div>
   <div class="col-sm-6 text-center">
     <h3>Create private wikis.</h3>

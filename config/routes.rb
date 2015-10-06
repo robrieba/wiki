@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  get 'wiki_entries/public' => 'wiki_entries#public'
   resources :wiki_entries
 
   devise_for :users, controllers: { registrations: 'devise/registrations' }
