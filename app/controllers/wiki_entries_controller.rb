@@ -3,9 +3,10 @@ class WikiEntriesController < ApplicationController
   before_action :require_sign_in, :except => :public
   after_action :verify_authorized, :except => [:index, :public]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+  before_action :set_wiki_entry, only: [:edit, :update, :destroy, :show]
 
   def public
-    @wiki_entries = WikiEntry.where(private: false)
+    @wiki_entries = WikiEntry.public_wikis
   end
 
   def index
@@ -13,18 +14,17 @@ class WikiEntriesController < ApplicationController
   end
 
   def show
-    @wiki_entry = WikiEntry.find(params[:id])
     authorize @wiki_entry
   end
 
   def new
-    @wiki_entry = current_user.wiki_entries.new
+    @wiki_entry = WikiEntry.new
     authorize @wiki_entry
   end
 
   def create
     @wiki_entry = current_user.wiki_entries.new(wiki_entry_params)
-    @wiki_entry.user_id = current_user.id
+    authorize @wiki_entry
 
     if @wiki_entry.save
       flash[:notice] = "Wiki entry was saved."
@@ -33,21 +33,18 @@ class WikiEntriesController < ApplicationController
       flash[:error] = "There was an error saving the wiki entry. Please try again."
       render :new
     end
-    authorize @wiki_entry
   end
 
   def edit
-    @wiki_entry = WikiEntry.find(params[:id])
     authorize @wiki_entry
   end
 
   def update
-    @wiki_entry = WikiEntry.find(params[:id])
     authorize @wiki_entry
 
     if @wiki_entry.update_attributes(wiki_entry_params)
       flash[:notice] = "Wiki was updated."
-      redirect_to (request.referrer || wiki_entries_path)
+      redirect_to :back
     else
       flash[:error] = "There was an error saving the wiki. Please try again."
       render :edit
@@ -55,11 +52,10 @@ class WikiEntriesController < ApplicationController
   end
 
   def destroy
-    @wiki_entry = current_user.wiki_entries.find(params[:id])
     authorize @wiki_entry
 
     @wiki_entry.destroy
-
+    
     respond_to do |format|
       format.html { redirect_to(request.referrer || wiki_entries_path) }
       format.js
@@ -76,6 +72,10 @@ class WikiEntriesController < ApplicationController
   def user_not_authorized
     flash[:error] = "You are not authorized to perform this action."
     redirect_to(request.referrer || root_path)
+  end
+
+  def set_wiki_entry
+    @wiki_entry = WikiEntry.find(params[:id])
   end
 
 end

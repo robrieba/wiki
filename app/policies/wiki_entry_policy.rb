@@ -1,27 +1,24 @@
 class WikiEntryPolicy < ApplicationPolicy
 
-  def public
-    true
-  end
-
   def new?
-    record.user_id == user.id
+    create?
   end
 
   def edit?
-    !record.private || (record.user_id == user.id) || user.admin?
+    !record.private || (record.user == user) || user.admin?
+    # record.users.include?(user)
   end
 
   def create?
-    record.user_id == user.id
+    user.present?
   end
 
   def destroy?
-    record.user_id == user.id
+    record.user == user
   end
 
   def show?
-    !record.private || (record.user_id == user.id) || user.admin?
+    edit?
   end
 
 end

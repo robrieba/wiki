@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   after_initialize :set_default_role
 
    has_many :wiki_entries
+   has_many :collaborators
+   #has_many :wikis, through: :collaborators, source: :wiki_entry
 
   def self.gravatar_url(user, size)
     gravatar_id = Digest::MD5::hexdigest(user.email).downcase
@@ -16,6 +18,10 @@ class User < ActiveRecord::Base
 
   def set_default_role
     self.role ||= :standard
+  end
+
+  def wikis
+    collaborators.map(&:wiki)
   end
 
 end
