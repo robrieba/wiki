@@ -1,6 +1,6 @@
 class WikiEntriesController < ApplicationController
   include Pundit
-  before_action :require_sign_in, :except => :public
+  before_action :require_sign_in, :except => [:public, :show]
   after_action :verify_authorized, :except => [:index, :public]
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   before_action :set_wiki_entry, only: [:edit, :update, :destroy, :show]
@@ -55,7 +55,7 @@ class WikiEntriesController < ApplicationController
     authorize @wiki_entry
 
     @wiki_entry.destroy
-    
+
     respond_to do |format|
       format.html { redirect_to(request.referrer || wiki_entries_path) }
       format.js
