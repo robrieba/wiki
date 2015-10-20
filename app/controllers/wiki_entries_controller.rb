@@ -66,7 +66,7 @@ class WikiEntriesController < ApplicationController
   private
 
   def wiki_entry_params
-    params.require(:wiki_entry).permit(:title, :body)
+    params.require(:wiki_entry).permit(:title, :body, :private)
   end
 
   def user_not_authorized

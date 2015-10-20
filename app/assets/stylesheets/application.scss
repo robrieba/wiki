@@ -15,3 +15,7 @@
  */
  @import "bootstrap-sprockets";
  @import "bootstrap";
+
+form .stripe-button-el span {
+  width: 400px;
+}
