@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   end
 
   def set_default_role
-    self.role ||= :standard
+    role ||= :standard
   end
 
   def wikis
