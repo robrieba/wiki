@@ -7,9 +7,8 @@ class User < ActiveRecord::Base
   enum role: [:standard, :premium, :admin]
   after_initialize :set_default_role
 
-   has_many :wiki_entries
-   has_many :collaborators
-   #has_many :wikis, through: :collaborators, source: :wiki_entry
+  has_many :wiki_entries
+  has_many :collaborators
 
   def self.gravatar_url(user, size)
     gravatar_id = Digest::MD5::hexdigest(user.email).downcase

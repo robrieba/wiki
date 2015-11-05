@@ -6,7 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
 admin = User.create!(
   name: Faker::Name.name,
   email: 'admin@example.com',
@@ -16,22 +15,25 @@ admin = User.create!(
 
 normal_user_1 = User.create!(
   name: Faker::Name.name,
-  email: 'user1@example.com',
-  password: 'password'
-)
-
-normal_user_2 = User.create!(
-  name: Faker::Name.name,
-  email: 'user2@example.com',
+  email: 'standard@example.com',
   password: 'password'
 )
 
 vip_user = User.create!(
   name: Faker::Name.name,
-  email: 'vip@example.com',
+  email: 'premium@example.com',
   password: 'password',
   role: :premium
 )
+
+# Create a large user base for stress testing
+200.times do
+  User.create!(
+    name: Faker::Name.name,
+    email: Faker::Internet.email,
+    password: 'password'
+  )
+end
 
 # Create standard user wikis
 10.times do
@@ -40,15 +42,6 @@ vip_user = User.create!(
     body: Faker::Hacker.say_something_smart,
     private: false,
     user_id: normal_user_1.id
-  )
-end
-
-10.times do
-  WikiEntry.create!(
-    title: Faker::University.name,
-    body: Faker::Lorem::paragraph(100, true, 10),
-    private: false,
-    user_id: normal_user_2.id
   )
 end
 

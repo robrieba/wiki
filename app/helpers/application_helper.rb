@@ -8,6 +8,10 @@ module ApplicationHelper
     end
   end
 
+  def is_authorized_for_premium
+    current_user.premium? || current_user.admin?
+  end
+
   def markdown(text)
     render_options = {
       filter_html:     true,

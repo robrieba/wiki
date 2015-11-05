@@ -14,7 +14,14 @@
       <tbody class="js-wikis">
         <% @wiki_entries.each do |wiki_entry| %>
         <tr id="wiki-entry-<%=wiki_entry.id%>" class="default">
-          <td><%= wiki_entry.title %></td>
+          <td>
+            <%= wiki_entry.title %>
+            <% if current_user %>
+              <% if wiki_entry.private %>
+                <span class="label label-default">Private</span>
+              <% end %>
+            <% end %>
+          </td>
           <td class="text-center"><%= link_to "view", wiki_entry, method: :get, class: 'btn btn-xs btn-primary' %></td>
           <td class="text-center">
             <% if policy(wiki_entry).update? %>

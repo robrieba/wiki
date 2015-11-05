@@ -1,0 +1,30 @@
+<h1>Add or remove collaborators for <%= @wiki_entry.title %></h1>
+
+<label>Collaborators</label>
+<table class="table">
+  <% @users.each do |user| %>
+    <% if @wiki_entry.users.include?(user) %>
+      <tr>
+        <td><%= user.name %></td>
+        <td>
+          <%= link_to "Remove as Collaborator", wiki_entry_collaborator_path(@wiki_entry, @wiki_entry.collaborator_for(user)), method: :delete, class: 'btn btn-xs btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>
+
+<label>All Users</label>
+
+<table class="table">
+  <% @users.each do |user| %>
+    <% if !@wiki_entry.users.include?(user) %>
+      <tr>
+        <td><%= user.name %></td>
+        <td>
+          <%= link_to "Add as Collaborator", wiki_entry_collaborators_path(@wiki_entry, user_id: user.id), method: 'post', class: 'btn btn-xs btn-success' %>
+        </td>
+      </tr>
+    <% end %>
+  <% end %>
+</table>

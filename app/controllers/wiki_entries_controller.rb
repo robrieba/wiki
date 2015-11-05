@@ -6,7 +6,7 @@ class WikiEntriesController < ApplicationController
   before_action :set_wiki_entry, only: [:edit, :update, :destroy, :show]
 
   def public
-    @wiki_entries = WikiEntry.public_wikis
+    @wiki_entries = policy_scope(WikiEntry)
   end
 
   def index
@@ -24,11 +24,12 @@ class WikiEntriesController < ApplicationController
 
   def create
     @wiki_entry = current_user.wiki_entries.new(wiki_entry_params)
+
     authorize @wiki_entry
 
     if @wiki_entry.save
       flash[:notice] = "Wiki entry was saved."
-      redirect_to(request.referrer || wiki_entries_path)
+      redirect_to(wiki_entries_path)
     else
       flash[:error] = "There was an error saving the wiki entry. Please try again."
       render :new
